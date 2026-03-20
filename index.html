@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bucks2Bar</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous" />
+    <style>
+      body {
+        background: linear-gradient(160deg, #f7f8fa 0%, #eef5ff 100%);
+      }
+
+      .app-shell {
+        max-width: 960px;
+      }
+
+      .table input {
+        min-width: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container py-4 py-md-5 app-shell">
+      <header class="mb-4">
+        <h1 class="display-6 fw-bold mb-1">Bucks2Bar</h1>
+        <p class="text-secondary mb-0">
+          Enter monthly income and expenses in Data, then view the bar chart in
+          Chart.
+        </p>
+      </header>
+
+      <form class="mb-4">
+        <div class="row g-2 align-items-end mb-2">
+          <div class="col">
+            <label for="username" class="form-label">Username</label>
+            <input
+              class="form-control"
+              id="username"
+              type="text"
+              minlength="5"
+              pattern="(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{5,}"
+              aria-label="Username"
+              title="Must be at least 5 characters and include 1 uppercase letter, 1 number, and 1 special character."
+              required />
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+        <p class="small text-secondary mb-0" id="username-rules">
+          Must be at least 5 characters and include at least 1 uppercase letter,
+          1 number, and 1 special character.
+        </p>
+      </form>
+
+      <ul class="nav nav-tabs" id="bucksTabs">
+        <li class="nav-item">
+          <button
+            class="nav-link active"
+            id="data-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#data-pane"
+            type="button">
+            Data
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            id="chart-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#chart-pane"
+            type="button">
+            Chart
+          </button>
+        </li>
+      </ul>
+
+      <section
+        class="tab-content border border-top-0 rounded-bottom bg-white p-3 p-md-4"
+        id="bucksTabContent">
+        <div class="tab-pane fade show active" id="data-pane">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Month</th>
+                  <th scope="col">Income</th>
+                  <th scope="col">Expense</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Jan</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-jan"
+                      data-type="income"
+                      data-month="jan"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="850"
+                      aria-label="January income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-jan"
+                      data-type="expense"
+                      data-month="jan"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="420"
+                      aria-label="January expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Feb</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-feb"
+                      data-type="income"
+                      data-month="feb"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="780"
+                      aria-label="February income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-feb"
+                      data-type="expense"
+                      data-month="feb"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="390"
+                      aria-label="February expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Mar</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-mar"
+                      data-type="income"
+                      data-month="mar"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="910"
+                      aria-label="March income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-mar"
+                      data-type="expense"
+                      data-month="mar"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="500"
+                      aria-label="March expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Apr</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-apr"
+                      data-type="income"
+                      data-month="apr"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="640"
+                      aria-label="April income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-apr"
+                      data-type="expense"
+                      data-month="apr"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="350"
+                      aria-label="April expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">May</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-may"
+                      data-type="income"
+                      data-month="may"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="720"
+                      aria-label="May income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-may"
+                      data-type="expense"
+                      data-month="may"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="410"
+                      aria-label="May expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Jun</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-jun"
+                      data-type="income"
+                      data-month="jun"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="880"
+                      aria-label="June income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-jun"
+                      data-type="expense"
+                      data-month="jun"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="530"
+                      aria-label="June expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Jul</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-jul"
+                      data-type="income"
+                      data-month="jul"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="950"
+                      aria-label="July income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-jul"
+                      data-type="expense"
+                      data-month="jul"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="620"
+                      aria-label="July expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Aug</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-aug"
+                      data-type="income"
+                      data-month="aug"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="830"
+                      aria-label="August income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-aug"
+                      data-type="expense"
+                      data-month="aug"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="540"
+                      aria-label="August expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Sep</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-sep"
+                      data-type="income"
+                      data-month="sep"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="760"
+                      aria-label="September income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-sep"
+                      data-type="expense"
+                      data-month="sep"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="480"
+                      aria-label="September expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Oct</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-oct"
+                      data-type="income"
+                      data-month="oct"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="890"
+                      aria-label="October income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-oct"
+                      data-type="expense"
+                      data-month="oct"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="560"
+                      aria-label="October expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Nov</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-nov"
+                      data-type="income"
+                      data-month="nov"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="970"
+                      aria-label="November income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-nov"
+                      data-type="expense"
+                      data-month="nov"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="610"
+                      aria-label="November expense" />
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Dec</th>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="income-dec"
+                      data-type="income"
+                      data-month="dec"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="1000"
+                      aria-label="December income" />
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      id="expense-dec"
+                      data-type="expense"
+                      data-month="dec"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value="700"
+                      aria-label="December expense" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Chart Tab -->
+        <div class="tab-pane fade" id="chart-pane">
+          <div class="mb-3">
+            <h2 class="h5 mb-1">Income vs Expense by Month</h2>
+            <p class="text-secondary mb-0">
+              This chart updates automatically when you edit values in Data.
+            </p>
+          </div>
+          <!-- Download Button -->
+          <button id="downloadChart" class="btn btn-sm btn-primary mb-3">
+            Download
+          </button>
+          <div class="ratio ratio-16x9">
+            <canvas
+              id="incomeExpenseChart"
+              aria-label="Income and expense bar chart"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
