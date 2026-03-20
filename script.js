@@ -157,9 +157,16 @@ function setupUsernameForm() {
   })
 }
 
-globalThis.addEventListener('DOMContentLoaded', () => {
+function initializeApp() {
   const chart = initializeChart()
   setupInputListeners(chart)
   setupDownloadButton()
   setupUsernameForm()
-})
+}
+
+document.addEventListener('DOMContentLoaded', initializeApp)
+globalThis.addEventListener('DOMContentLoaded', initializeApp)
+
+if (document.readyState !== 'loading') {
+  initializeApp()
+}

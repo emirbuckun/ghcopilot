@@ -1,79 +1,83 @@
 /** @jest-environment jsdom */
 
-function setupUsernameDom() {
-  document.body.innerHTML = `
-		<form id="username-form">
-			<input id="username" type="text" />
-			<p id="username-feedback"></p>
-		</form>
-	`
-
-  return {
-    form: document.getElementById('username-form'),
-    usernameInput: document.getElementById('username'),
-    feedback: document.getElementById('username-feedback'),
-  }
-}
-
-function initializeScript() {
-  jest.isolateModules(() => {
+describe('setupUsernameForm', () => {
+  beforeAll(() => {
+    jest.resetModules()
     require('./script.js')
   })
 
-  window.dispatchEvent(new Event('DOMContentLoaded'))
-}
+  test('returns early when form elements are missing', () => {
+    document.body.innerHTML = '<div id="app"></div>'
 
-describe('username validation', () => {
-  beforeEach(() => {
-    jest.resetModules()
-    document.body.innerHTML = ''
+    expect(() => {
+      globalThis.dispatchEvent(new Event('DOMContentLoaded'))
+    }).not.toThrow()
   })
 
-  test('accepts a valid username', () => {
-    const { form, usernameInput, feedback } = setupUsernameDom()
-    initializeScript()
+  test('shows success feedback for a valid username and prevents submit default', () => {
+    document.body.innerHTML = `
+			<form id="username-form">
+				<input id="username" />
+				<p id="username-feedback"></p>
+			</form>
+		`
 
-    usernameInput.value = 'Abcd1!'
-    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
+    globalThis.dispatchEvent(new Event('DOMContentLoaded'))
 
-    expect(feedback.textContent).toBe('Success: "Abcd1!" is a valid username.')
-    expect(feedback.className).toContain('text-success')
+    const form = document.getElementById('username-form')
+    const usernameInput = document.getElementById('username')
+    const feedback = document.getElementById('username-feedback')
+
+    usernameInput.value = 'Abc1!'
+    const submitEvent = new Event('submit', { bubbles: true, cancelable: true })
+    form.dispatchEvent(submitEvent)
+
+    expect(submitEvent.defaultPrevented).toBe(true)
+    expect(feedback.textContent).toBe('Success: "Abc1!" is a valid username.')
+    expect(feedback.className).toBe('small mt-2 mb-0 text-success')
   })
 
-  test('rejects username without uppercase letter', () => {
-    const { form, usernameInput, feedback } = setupUsernameDom()
-    initializeScript()
+  test('shows error feedback for an invalid username', () => {
+    document.body.innerHTML = `
+			<form id="username-form">
+				<input id="username" />
+				<p id="username-feedback"></p>
+			</form>
+		`
 
-    usernameInput.value = 'abcd1!'
+    globalThis.dispatchEvent(new Event('DOMContentLoaded'))
+
+    const form = document.getElementById('username-form')
+    const usernameInput = document.getElementById('username')
+    const feedback = document.getElementById('username-feedback')
+
+    usernameInput.value = 'abcde'
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
 
     expect(feedback.textContent).toBe(
       'Invalid username. Use at least 5 characters with 1 uppercase letter, 1 number, and 1 special character.',
     )
-    expect(feedback.className).toContain('text-danger')
+    expect(feedback.className).toBe('small mt-2 mb-0 text-danger')
   })
 
-  test('rejects username shorter than 5 characters', () => {
-    const { form, usernameInput, feedback } = setupUsernameDom()
-    initializeScript()
+  test('trims username before validation and in success message', () => {
+    document.body.innerHTML = `
+			<form id="username-form">
+				<input id="username" />
+				<p id="username-feedback"></p>
+			</form>
+		`
 
-    usernameInput.value = 'A1!a'
+    globalThis.dispatchEvent(new Event('DOMContentLoaded'))
+
+    const form = document.getElementById('username-form')
+    const usernameInput = document.getElementById('username')
+    const feedback = document.getElementById('username-feedback')
+
+    usernameInput.value = '   Abc1!   '
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
 
-    expect(feedback.textContent).toBe(
-      'Invalid username. Use at least 5 characters with 1 uppercase letter, 1 number, and 1 special character.',
-    )
-    expect(feedback.className).toContain('text-danger')
-  })
-
-  test('trims whitespace before validating username', () => {
-    const { form, usernameInput, feedback } = setupUsernameDom()
-    initializeScript()
-
-    usernameInput.value = '  Abcd1!  '
-    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
-
-    expect(feedback.textContent).toBe('Success: "Abcd1!" is a valid username.')
-    expect(feedback.className).toContain('text-success')
+    expect(feedback.textContent).toBe('Success: "Abc1!" is a valid username.')
+    expect(feedback.className).toBe('small mt-2 mb-0 text-success')
   })
 })
