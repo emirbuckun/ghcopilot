@@ -26,6 +26,7 @@ const MONTH_LABELS = [
   'Nov',
   'Dec',
 ]
+const USERNAME_PATTERN = /(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{5,}/
 
 function toNumberOrZero(value) {
   const parsed = Number.parseFloat(value)
@@ -129,8 +130,36 @@ function setupDownloadButton() {
   })
 }
 
+function setupUsernameForm() {
+  const form = document.getElementById('username-form')
+  const usernameInput = document.getElementById('username')
+  const feedback = document.getElementById('username-feedback')
+
+  if (!form || !usernameInput || !feedback) {
+    return
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    const username = usernameInput.value.trim()
+    const isValidUsername = USERNAME_PATTERN.test(username)
+
+    if (isValidUsername) {
+      feedback.textContent = `Success: "${username}" is a valid username.`
+      feedback.className = 'small mt-2 mb-0 text-success'
+      return
+    }
+
+    feedback.textContent =
+      'Invalid username. Use at least 5 characters with 1 uppercase letter, 1 number, and 1 special character.'
+    feedback.className = 'small mt-2 mb-0 text-danger'
+  })
+}
+
 globalThis.addEventListener('DOMContentLoaded', () => {
   const chart = initializeChart()
   setupInputListeners(chart)
   setupDownloadButton()
+  setupUsernameForm()
 })

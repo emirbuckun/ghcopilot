@@ -33,7 +33,7 @@
         </p>
       </header>
 
-      <form class="mb-4">
+      <form class="mb-4" id="username-form" novalidate>
         <div class="row g-2 align-items-end mb-2">
           <div class="col">
             <label for="username" class="form-label">Username</label>
@@ -55,6 +55,10 @@
           Must be at least 5 characters and include at least 1 uppercase letter,
           1 number, and 1 special character.
         </p>
+        <p
+          class="small mt-2 mb-0"
+          id="username-feedback"
+          aria-live="polite"></p>
       </form>
 
       <ul class="nav nav-tabs" id="bucksTabs">
