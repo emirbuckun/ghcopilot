@@ -1,0 +1,25 @@
+{
+  "name": "ghcopilot",
+  "version": "1.0.0",
+  "description": "Bucks2Bar is a lightweight personal finance tracker built with plain HTML and vanilla JavaScript. It lets you enter monthly income and expense values in a table and view them instantly in a bar chart.",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emirbuckun/ghcopilot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/emirbuckun/ghcopilot/issues"
+  },
+  "homepage": "https://github.com/emirbuckun/ghcopilot#readme",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
